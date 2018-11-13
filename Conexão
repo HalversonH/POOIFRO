@@ -1,0 +1,51 @@
+package conecxao;
+import java.sql.Connection;
+        import java.sql.DriverManager;
+                import java.sql.SQLException;
+
+public class conecxao {
+
+    public conecxao() {
+    
+    }
+    public static String status = "Sem conexão";
+    public static Connection getConnection(){
+        Connection connection = null;
+   try{
+       String driver = "com.mysql.jdbc.Driver";
+       String serverName="localhost:3306";
+       String database="monitoria";
+       String url="jdbc:mysql://"+serverName+"/"+database;
+       String userName="root";
+       String password="";
+       connection = DriverManager.getConnection(url,userName,password);                                 
+  
+                        if(connection != null){
+                        status= "conectado com sucesso";
+                                              }               else{
+                                            status ="não foi possivel conectar";
+                                                                  }
+     }catch(SQLException e){
+         System.out.println("erro meu amigo não conectou");
+         return null;
+     }
+   return connection; 
+       
+    }
+     public static boolean FecharConexao() {
+
+        try {
+
+            conecxao.getConnection().close();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            return false;
+
+        }
+
+    }
+
+}
