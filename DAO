@@ -1,0 +1,98 @@
+package DAO;
+import conecxao.conecxao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import beans.Alunos;
+
+//classe Data Acess Object. Criar uma classe DOA para cada classe bean.
+//Exemplo com classe Categoria.
+
+public class AlunoDAO extends beans.Alunos{
+    private Connection connection=null;
+    
+    public AlunoDAO() {
+    connection = conecxao.getConnection();
+    }
+    
+    //inserir
+    public boolean insert(Alunos Alunos){ 
+        String sql = "INSERT INTO Alunos (idAluno,nome,cpf,ano) VALUES (?,?,?,?)";
+        PreparedStatement statement = null;
+        try{
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, Alunos.getIdAluno());statement.setString(2, Alunos.getNome());statement.setString(3, Alunos.getCpf());statement.setInt(4, Alunos.getAno());
+        statement.executeUpdate();
+        return true;
+    }catch (SQLException e){
+            System.out.println("erro: "+e);
+            return false;
+    }finally{
+            //fechar conexao
+            conecxao.FecharConexao();
+        }
+    }
+    
+    //SELECT
+    public List<Alunos> select(){ 
+         String sql = "SELECT * FROM Alunos";
+         PreparedStatement statement = null;
+         ResultSet resultset = null;
+         List<Alunos> categorias = new ArrayList<>();
+         try{
+             statement = connection.prepareStatement(sql);
+             resultset = statement.executeQuery();
+             while(resultset.next()){
+                 Alunos Alunos  = new Alunos ();
+                 Alunos.setNome(resultset.getString("nome") );
+                 categorias.add(Alunos);
+             }
+         }catch(SQLException e ){
+             System.out.println("error "+e);
+         }
+         finally{
+             conecxao.FecharConexao();
+         }
+         return categorias;
+    }
+    
+    //UPDATE
+    public boolean update (Alunos Alunos){ 
+        String sql = "UPDATE categoria SET descricao = ? WHERE id= ?";
+        PreparedStatement statement = null;
+        try{
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, Alunos.getNome());
+        statement.setInt(2, Alunos.getIdAluno());
+        statement.executeUpdate();
+        return true;
+    }catch (SQLException e){
+            System.out.println("erro: "+e);
+            return false;
+    }finally{
+            //fechar conexao
+            conecxao.FecharConexao();
+        }
+    }
+    
+    //DELETE
+    public boolean delete (Alunos Alunos){
+        String sql = "DELETE FROM categoria WHERE id = ?";
+        PreparedStatement statement = null;
+        try{
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, Alunos.getIdAluno());
+        statement.executeUpdate();
+        return true;
+    }catch (SQLException e){
+            System.out.println("erro: "+e);
+            return false;
+    }finally{
+            //fechar conexao
+            conecxao.FecharConexao();
+        }
+    }
+}
