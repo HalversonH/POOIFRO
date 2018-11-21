@@ -1,4 +1,5 @@
 # POOIFRO
-Cuidado, nem sempre o que parece é o que parece :^>
-Eu vejo coisas que são coisas.
 
+Repositório para o Projeto PROMON. 
+
+Nomes: Gabriel Ayres, Isabelly K., Guilherme Roque, Ludmila Machado.
